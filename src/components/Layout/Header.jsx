@@ -1,13 +1,34 @@
+import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 
 const Header = ({ pageTitle, onMenuToggle }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef(null);
 
   const handleLogout = () => {
     dispatch(logout());
   };
+
+  const toggleDropdown = () => {
+    setShowDropdown(!showDropdown);
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <header className="header">
@@ -31,7 +52,7 @@ const Header = ({ pageTitle, onMenuToggle }) => {
           </button>
         </div>
         
-        <div className="user-profile" onClick={handleLogout}>
+        <div className="user-profile" onClick={toggleDropdown} ref={dropdownRef}>
           <img 
             src={user?.avatar || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'} 
             alt="User Avatar" 
@@ -41,7 +62,26 @@ const Header = ({ pageTitle, onMenuToggle }) => {
             <span className="profile-name">{user?.fullName || 'Admin'}</span>
             <span className="profile-role">Quản trị viên</span>
           </div>
-          <i className="fas fa-chevron-down"></i>
+          <i className={`fas fa-chevron-${showDropdown ? 'up' : 'down'}`}></i>
+          
+          {/* Profile Dropdown */}
+          {showDropdown && (
+            <div className="profile-dropdown">
+              <div className="dropdown-item">
+                <i className="fas fa-user"></i>
+                <span>Thông tin cá nhân</span>
+              </div>
+              <div className="dropdown-item">
+                <i className="fas fa-cog"></i>
+                <span>Cài đặt</span>
+              </div>
+              <div className="dropdown-divider"></div>
+              <div className="dropdown-item logout-item" onClick={handleLogout}>
+                <i className="fas fa-sign-out-alt"></i>
+                <span>Đăng xuất</span>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </header>

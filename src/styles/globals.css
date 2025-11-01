@@ -230,6 +230,7 @@ body {
     padding: 8px 12px;
     border-radius: 8px;
     transition: background-color 0.2s;
+    position: relative;
 }
 
 .user-profile:hover {
@@ -269,6 +270,60 @@ body {
 .profile-role {
     font-size: 12px;
     color: #64748b;
+}
+
+/* Profile Dropdown */
+.profile-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    min-width: 200px;
+    z-index: 1000;
+    margin-top: 8px;
+    overflow: hidden;
+}
+
+.dropdown-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    font-size: 14px;
+    color: #374151;
+}
+
+.dropdown-item:hover {
+    background-color: #f9fafb;
+}
+
+.dropdown-item i {
+    width: 16px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.dropdown-divider {
+    height: 1px;
+    background-color: #e5e7eb;
+    margin: 4px 0;
+}
+
+.logout-item {
+    color: #dc2626;
+}
+
+.logout-item:hover {
+    background-color: #fef2f2;
+}
+
+.logout-item i {
+    color: #dc2626;
 }
 
 /* Page Content */
