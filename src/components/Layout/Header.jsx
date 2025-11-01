@@ -1,15 +1,34 @@
 import { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { logout } from '../../store/slices/authSlice';
 
 const Header = ({ pageTitle, onMenuToggle }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { user } = useSelector((state) => state.auth);
   const [showDropdown, setShowDropdown] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const dropdownRef = useRef(null);
 
-  const handleLogout = () => {
-    dispatch(logout());
+  const handleLogout = async () => {
+    try {
+      // Close dropdown first
+      setShowDropdown(false);
+      setIsLoggingOut(true);
+      
+      // Small delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
+      // Dispatch logout action
+      dispatch(logout());
+      
+      // Navigate to login immediately
+      navigate('/login', { replace: true });
+    } catch (error) {
+      console.error('Logout error:', error);
+      setIsLoggingOut(false);
+    }
   };
 
   const toggleDropdown = () => {
@@ -77,8 +96,8 @@ const Header = ({ pageTitle, onMenuToggle }) => {
               </div>
               <div className="dropdown-divider"></div>
               <div className="dropdown-item logout-item" onClick={handleLogout}>
-                <i className="fas fa-sign-out-alt"></i>
-                <span>Đăng xuất</span>
+                <i className={`fas ${isLoggingOut ? 'fa-spinner fa-spin' : 'fa-sign-out-alt'}`}></i>
+                <span>{isLoggingOut ? 'Đang đăng xuất...' : 'Đăng xuất'}</span>
               </div>
             </div>
           )}

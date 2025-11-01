@@ -326,6 +326,37 @@ body {
     color: #dc2626;
 }
 
+/* Loading Container */
+.loading-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8fafc;
+}
+
+.loading-spinner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 32px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.loading-spinner i {
+    font-size: 24px;
+    color: #3b82f6;
+}
+
+.loading-spinner span {
+    font-size: 14px;
+    color: #64748b;
+    font-weight: 500;
+}
+
 /* Page Content */
 .page-content {
     padding: 24px;

@@ -7,11 +7,35 @@ import Header from './Header';
 const MainLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const location = useLocation();
   const { isAuthenticated } = useSelector((state) => state.auth);
 
+  // Handle authentication state changes
+  useEffect(() => {
+    if (!isAuthenticated) {
+      setIsTransitioning(true);
+      // Small delay to prevent white screen flash
+      const timer = setTimeout(() => {
+        setIsTransitioning(false);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isAuthenticated]);
+
   // Redirect to login if not authenticated
   if (!isAuthenticated) {
+    if (isTransitioning) {
+      // Show loading state during transition
+      return (
+        <div className="loading-container">
+          <div className="loading-spinner">
+            <i className="fas fa-spinner fa-spin"></i>
+            <span>Đang chuyển hướng...</span>
+          </div>
+        </div>
+      );
+    }
     return <Navigate to="/login" replace />;
   }
 
