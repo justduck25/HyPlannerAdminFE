@@ -10,7 +10,7 @@ import MainLayout from "./components/Layout/MainLayout";
 import Dashboard from "./pages/Dashboard/Dashboard";
 import Users from "./pages/Users/Users";
 import Weddings from "./pages/Weddings/Weddings";
-import Feedback from "./pages/feedback";
+import Feedback from "./pages/Feedback";
 import Login from "./pages/Auth/Login";
 import "./styles/globals.css";
 import "@fortawesome/fontawesome-free/css/all.min.css";
