@@ -1,8 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Outlet, useLocation, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import Sidebar from './Sidebar';
-import Header from './Header';
+import { useState, useEffect } from "react";
+import { Outlet, useLocation, Navigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Sidebar from "./Sidebar";
+import Header from "./Header";
 
 const MainLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -42,14 +42,15 @@ const MainLayout = () => {
   // Get page title based on current route
   const getPageTitle = (pathname) => {
     const routes = {
-      '/dashboard': 'Tổng quan',
-      '/users': 'Quản lý người dùng',
-      '/weddings': 'Sự kiện cưới',
-      '/payments': 'Thanh toán',
-      '/analytics': 'Thống kê',
-      '/settings': 'Cài đặt',
+      "/dashboard": "Tổng quan",
+      "/users": "Quản lý người dùng",
+      "/weddings": "Sự kiện cưới",
+      "/payments": "Thanh toán",
+      "/analytics": "Thống kê",
+      "/feedbacks": "Phản hồi",
+      "/settings": "Cài đặt",
     };
-    return routes[pathname] || 'Dashboard';
+    return routes[pathname] || "Dashboard";
   };
 
   const handleMenuToggle = () => {
@@ -63,13 +64,13 @@ const MainLayout = () => {
   // Handle window resize with debounce
   useEffect(() => {
     let timeoutId;
-    
+
     const handleResize = () => {
       clearTimeout(timeoutId);
       timeoutId = setTimeout(() => {
         const mobile = window.innerWidth <= 768;
         setIsMobile(mobile);
-        
+
         // Auto close sidebar on mobile when resizing
         if (mobile && sidebarOpen) {
           setSidebarOpen(false);
@@ -77,9 +78,9 @@ const MainLayout = () => {
       }, 150);
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
       clearTimeout(timeoutId);
     };
   }, [sidebarOpen]);
@@ -94,13 +95,13 @@ const MainLayout = () => {
   return (
     <div className="app-layout">
       <Sidebar isOpen={sidebarOpen} onClose={handleSidebarClose} />
-      
-      <div className={`main-content ${sidebarOpen ? 'sidebar-open' : ''}`}>
-        <Header 
-          pageTitle={getPageTitle(location.pathname)} 
+
+      <div className={`main-content ${sidebarOpen ? "sidebar-open" : ""}`}>
+        <Header
+          pageTitle={getPageTitle(location.pathname)}
           onMenuToggle={handleMenuToggle}
         />
-        
+
         <main className="page-content">
           <Outlet />
         </main>
